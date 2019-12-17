@@ -45,12 +45,12 @@ public class ApplicationForm extends JFrame {
         setTitle(title);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(0, 0));
-        setSize(575, 310);
+        setSize(615, 350);
         setVisible(false);
         JPanel panel = new JPanel();
         panel.setLayout(null);
         getContentPane().add(BorderLayout.CENTER, panel);
-        panel.setBounds(0, 0, 575, 310);
+        panel.setBounds(0, 0, 615, 350);
         JScrollPane scrollPane = new JScrollPane();
         model = new DefaultTableModel();
         table = new JTable(model);
@@ -154,7 +154,7 @@ public class ApplicationForm extends JFrame {
 
     private void personalAccountButtonActionPerformed(ActionEvent event) {
         AccountDialog dialog = new PersonalAccountDialog(ApplicationForm.this);
-        showDialog(dialog, 450, 20, 300, 330);
+        showDialog(dialog, 450, 20, 320, 370);
         addAccount(AccountDialog.ACCOUNT_TYPE.PERSONAL);
     }
 

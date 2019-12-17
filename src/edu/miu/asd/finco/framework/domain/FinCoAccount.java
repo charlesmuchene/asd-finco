@@ -1,6 +1,15 @@
 package edu.miu.asd.finco.framework.domain;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class FinCoAccount extends Account {
+
+    public FinCoAccount(String productNumber, LocalDate openDate, double interestRate,
+                        ICustomer customer, double balance, Card card) {
+        super(productNumber, openDate, interestRate, customer, balance, card);
+    }
+
     @Override
     public void addInterest() {
 
@@ -21,8 +30,10 @@ public class FinCoAccount extends Account {
 
     }
 
-    @Override
-    public String toString() {
-        return "Default: FinCoAccount";
-    }
+//    @Override
+//    public String toString() {
+////        String cardDetails;
+//        return "Default: FinCoAccount";
+////        return super.toString();
+//    }
 }

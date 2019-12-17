@@ -1,9 +1,16 @@
 package edu.miu.asd.finco.framework;
 
+import edu.miu.asd.finco.framework.domain.Card;
+import edu.miu.asd.finco.framework.domain.IAccount;
+import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.IEntry;
+
 import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.dao.InMemoryFincoDao;
+
 import edu.miu.asd.finco.framework.factories.*;
+import java.time.LocalDate;
 import edu.miu.asd.finco.framework.ui.ApplicationForm;
 
 import javax.swing.*;
@@ -78,6 +85,5 @@ public class FincoApplication {
 
         FincoApplication fincoApplication = new FincoApplication();
         fincoApplication.launch();
-
     }
 }

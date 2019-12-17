@@ -7,6 +7,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ApplicationForm extends JFrame {
     public String accountNumber;
@@ -33,8 +37,12 @@ public class ApplicationForm extends JFrame {
     private JButton exitButton = new JButton();
 
     public ApplicationForm() {
+        this("Finco Application", null);
+    }
 
-        setTitle("Finco Application");
+    public ApplicationForm(String title, BiConsumer<JPanel, Rectangle> customButtonFunctor) {
+
+        setTitle(title);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(0, 0));
         setSize(575, 310);
@@ -72,9 +80,12 @@ public class ApplicationForm extends JFrame {
         depositButton.setBounds(468, 104, 96, 33);
         withdrawButton.setText("Withdraw");
         panel.add(withdrawButton);
-        addInterestButton.setBounds(448, 20, 106, 33);
-        addInterestButton.setText("Add interest");
-        panel.add(addInterestButton);
+
+        if (customButtonFunctor != null) {
+            Rectangle bounds = new Rectangle(448, 20, 106, 33);
+            customButtonFunctor.accept(panel, bounds);
+        }
+
         withdrawButton.setBounds(468, 164, 96, 33);
         exitButton.setText("Exit");
         panel.add(exitButton);
@@ -91,21 +102,6 @@ public class ApplicationForm extends JFrame {
         withdrawButton.addActionListener(fincoWindowActionListener);
         addInterestButton.addActionListener(fincoWindowActionListener);
 
-    }
-
-    public static void main(String[] args) {
-        try {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //Create a new instance of our application's frame, and make it visible.
-            (new ApplicationForm()).setVisible(true);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            System.exit(1);
-        }
     }
 
     private void exitApplication() {
@@ -243,4 +239,5 @@ public class ApplicationForm extends JFrame {
     private void addInterestButtonActionPerformed(ActionEvent event) {
         JOptionPane.showMessageDialog(addInterestButton, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }
+
 }

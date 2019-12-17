@@ -2,8 +2,8 @@ package edu.miu.asd.finco.framework.controllers;
 
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.domain.IAccount;
-import edu.miu.asd.finco.framework.domain.IEntry;
-import edu.miu.asd.finco.framework.factories.AbstractEntryFactory;
+import edu.miu.asd.finco.framework.domain.ITransaction;
+import edu.miu.asd.finco.framework.factories.AbstractTransactionFactory;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -11,11 +11,11 @@ import java.util.OptionalDouble;
 public class TransactionController {
 
     private FincoDao fincoDao;
-    private AbstractEntryFactory entryFactory;
+    private AbstractTransactionFactory transactionFactory;
 
-    public TransactionController(FincoDao fincoDao, AbstractEntryFactory entryFactory) {
+    public TransactionController(FincoDao fincoDao, AbstractTransactionFactory transactionFactory) {
         this.fincoDao = fincoDao;
-        this.entryFactory = entryFactory;
+        this.transactionFactory = transactionFactory;
     }
 
     /**
@@ -35,8 +35,8 @@ public class TransactionController {
             try {
 
                 double newAmount = Double.parseDouble(amount);
-                IEntry entry = entryFactory.createEntry(IEntry.Type.DEPOSIT, newAmount, description);
-                account.executeEntry(entry);
+                ITransaction transaction = transactionFactory.createTransaction(ITransaction.Type.DEPOSIT, newAmount, description);
+                account.executeTransaction(transaction);
                 fincoDao.updateAccount(account);
                 return OptionalDouble.of(account.getBalance());
 
@@ -64,8 +64,9 @@ public class TransactionController {
             try {
 
                 double newAmount = Double.parseDouble(amount);
-                IEntry entry = entryFactory.createEntry(IEntry.Type.WITHDRAW, newAmount, description);
-                account.executeEntry(entry);
+                ITransaction transaction = transactionFactory.createTransaction(ITransaction.Type.WITHDRAW, newAmount, description);
+                account.executeTransaction(transaction);
+                fincoDao.saveTransaction(transaction);
                 fincoDao.updateAccount(account);
                 return OptionalDouble.of(account.getBalance());
 

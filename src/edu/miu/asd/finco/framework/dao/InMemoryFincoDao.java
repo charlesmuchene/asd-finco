@@ -2,10 +2,9 @@ package edu.miu.asd.finco.framework.dao;
 
 import edu.miu.asd.finco.framework.domain.IAccount;
 import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.ITransaction;
 
-import javax.swing.text.html.Option;
 import java.util.*;
-import java.util.function.BiFunction;
 
 public class InMemoryFincoDao implements FincoDao {
 
@@ -20,6 +19,11 @@ public class InMemoryFincoDao implements FincoDao {
     @Override
     public void saveAccount(IAccount account) {
         accounts.put(account.getAccountNumber(), account);
+    }
+
+    @Override
+    public void saveTransaction(ITransaction transaction) {
+
     }
 
     @Override

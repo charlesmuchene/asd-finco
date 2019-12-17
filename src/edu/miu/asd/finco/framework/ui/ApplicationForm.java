@@ -81,15 +81,15 @@ public class ApplicationForm extends JFrame {
         exitButton.setBounds(468, 248, 96, 31);
         personalAccountButton.setActionCommand("jbutton");
 
-        BankWindowAdapter aBankWindowAdapter = new BankWindowAdapter();
-        this.addWindowListener(aBankWindowAdapter);
-        BankWindowActionListener lBankWindowActionListener = new BankWindowActionListener();
-        exitButton.addActionListener(lBankWindowActionListener);
-        personalAccountButton.addActionListener(lBankWindowActionListener);
-        companyAccountButton.addActionListener(lBankWindowActionListener);
-        depositButton.addActionListener(lBankWindowActionListener);
-        withdrawButton.addActionListener(lBankWindowActionListener);
-        addInterestButton.addActionListener(lBankWindowActionListener);
+        FincoWindowAdapter fincoWindowAdapter = new FincoWindowAdapter();
+        this.addWindowListener(fincoWindowAdapter);
+        FincoWindowActionListener fincoWindowActionListener = new FincoWindowActionListener();
+        exitButton.addActionListener(fincoWindowActionListener);
+        personalAccountButton.addActionListener(fincoWindowActionListener);
+        companyAccountButton.addActionListener(fincoWindowActionListener);
+        depositButton.addActionListener(fincoWindowActionListener);
+        withdrawButton.addActionListener(fincoWindowActionListener);
+        addInterestButton.addActionListener(fincoWindowActionListener);
 
     }
 
@@ -118,7 +118,7 @@ public class ApplicationForm extends JFrame {
         }
     }
 
-    private class BankWindowAdapter extends java.awt.event.WindowAdapter {
+    private class FincoWindowAdapter extends java.awt.event.WindowAdapter {
         public void windowClosing(WindowEvent event) {
             if (event.getSource() == ApplicationForm.this)
                 windowClosingWithEvent(event);
@@ -133,7 +133,7 @@ public class ApplicationForm extends JFrame {
         }
     }
 
-    private class BankWindowActionListener implements java.awt.event.ActionListener {
+    private class FincoWindowActionListener implements java.awt.event.ActionListener {
         public void actionPerformed(ActionEvent event) {
             Object object = event.getSource();
             if (object == exitButton)

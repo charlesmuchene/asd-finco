@@ -1,4 +1,4 @@
-package edu.miu.asd.finco.domain;
+package edu.miu.asd.finco.framework.domain;
 
 public class FinCoAccount extends Account {
     @Override
@@ -19,5 +19,10 @@ public class FinCoAccount extends Account {
     @Override
     public void notifyCustomer() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Default: FinCoAccount";
     }
 }

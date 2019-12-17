@@ -1,7 +1,7 @@
-package edu.miu.asd.finco.factories;
+package edu.miu.asd.finco.framework.factories;
 
-import edu.miu.asd.finco.domain.ICustomer;
-import edu.miu.asd.finco.domain.Organization;
+import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.Organization;
 
 public class CustomerFactory implements AbstractCustomerFactory {
     @Override

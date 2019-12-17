@@ -7,4 +7,5 @@ public interface IAccount {
     double getBalance();
     void notifyCustomer();
     void setCard(Card card);
+    String getAccountNumber();
 }

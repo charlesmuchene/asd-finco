@@ -63,7 +63,7 @@ public abstract class TransactionDialog extends JDialog {
     }
 
     private void okayButtonActionPerformed(java.awt.event.ActionEvent event) {
-        applicationForm.amountDeposit = depositTextField.getText();
+        applicationForm.transactionAmount = depositTextField.getText();
         dispose();
     }
 

@@ -1,5 +1,6 @@
 package edu.miu.asd.finco.framework.ui;
 
+import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.ui.dialogs.*;
 
 import javax.swing.*;
@@ -7,10 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
-import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class ApplicationForm extends JFrame {
     public String accountNumber;
@@ -20,7 +19,7 @@ public class ApplicationForm extends JFrame {
     public String zip;
     public String state;
     public String accountType;
-    public String amountDeposit;
+    public String transactionAmount;
     public String email;
     public String noOfEmployees;
     public boolean isNewAccount;
@@ -35,6 +34,7 @@ public class ApplicationForm extends JFrame {
     private JButton withdrawButton = new JButton();
     private JButton addInterestButton = new JButton();
     private JButton exitButton = new JButton();
+    private TransactionController transactionController;
 
     public ApplicationForm() {
         this("Finco Application", null);
@@ -202,12 +202,11 @@ public class ApplicationForm extends JFrame {
             TransactionDialog dialog = new DepositDialog(ApplicationForm.this, accountNumber);
             showDialog(dialog, 430, 15, 275, 140);
 
-            // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
-            String amount = (String) model.getValueAt(selection, 5);
-            long currentAmount = Long.parseLong(amount);
-            long newAmount = currentAmount + deposit;
-            model.setValueAt(String.valueOf(newAmount), selection, 5);
+            if (transactionController != null) {
+                OptionalDouble newAmount = transactionController.makeDeposit(transactionAmount, accountNumber, "");
+                if (newAmount.isPresent())
+                    model.setValueAt(String.valueOf(newAmount.getAsDouble()), selection, 5);
+            }
         }
 
     }
@@ -223,14 +222,14 @@ public class ApplicationForm extends JFrame {
             TransactionDialog dialog = new WithdrawDialog(ApplicationForm.this, accountNumber);
             showDialog(dialog, 430, 15, 275, 140);
 
-            // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
-            String amount = (String) model.getValueAt(selection, 5);
-            long currentAmount = Long.parseLong(amount);
-            long newAmount = currentAmount - deposit;
-            model.setValueAt(String.valueOf(newAmount), selection, 5);
-            if (newAmount < 0) {
-                JOptionPane.showMessageDialog(withdrawButton, " Account " + accountNumber + " : balance is negative: $" + String.valueOf(newAmount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+            if (transactionController != null) {
+                OptionalDouble newAmount = transactionController.makeWithdraw(transactionAmount, accountNumber, "");
+                if (newAmount.isPresent()) {
+                    model.setValueAt(String.valueOf(newAmount.getAsDouble()), selection, 5);
+                    if (newAmount.getAsDouble() < 0) {
+                        JOptionPane.showMessageDialog(withdrawButton, " Account " + accountNumber + " : balance is negative: $" + String.valueOf(newAmount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
             }
         }
 
@@ -240,4 +239,7 @@ public class ApplicationForm extends JFrame {
         JOptionPane.showMessageDialog(addInterestButton, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }
 
+    public void setTransactionController(TransactionController transactionController) {
+        this.transactionController = transactionController;
+    }
 }

@@ -1,11 +1,14 @@
 package edu.miu.asd.finco.framework;
 
-import edu.miu.asd.finco.framework.dao.FinCoDao;
-import edu.miu.asd.finco.framework.dao.InMemoryFinCoDao;
 import edu.miu.asd.finco.framework.domain.Card;
 import edu.miu.asd.finco.framework.domain.IAccount;
 import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.domain.IEntry;
+
+import edu.miu.asd.finco.framework.controllers.TransactionController;
+import edu.miu.asd.finco.framework.dao.FincoDao;
+import edu.miu.asd.finco.framework.dao.InMemoryFincoDao;
+
 import edu.miu.asd.finco.framework.factories.*;
 import java.time.LocalDate;
 import edu.miu.asd.finco.framework.ui.ApplicationForm;
@@ -17,13 +20,17 @@ public class FincoApplication {
     private AbstractCustomerFactory customerFactory;
     private AbstractAccountFactory accountFactory;
     private AbstractEntryFactory entryFactory;
-    private FinCoDao dao = new InMemoryFinCoDao();
-    private ApplicationForm applicationForm = new ApplicationForm();
+    private FincoDao dao = new InMemoryFincoDao();
+    private ApplicationForm applicationForm;
+    private TransactionController transactionController;
 
     public FincoApplication() {
         this.customerFactory = new CustomerFactory();
         this.accountFactory = new AccountFactory();
         this.entryFactory = new EntryFactory();
+        this.applicationForm = new ApplicationForm();
+        this.transactionController = new TransactionController(dao, this.entryFactory);
+        this.applicationForm.setTransactionController(this.transactionController);
     }
 
     public void setAccountFactory(AbstractAccountFactory accountFactory) {
@@ -32,10 +39,6 @@ public class FincoApplication {
 
     public void setCustomerFactory(AbstractCustomerFactory customerFactory) {
         this.customerFactory = customerFactory;
-    }
-
-    public void setEntryFactory(AbstractEntryFactory entryFactory) {
-        this.entryFactory = entryFactory;
     }
 
     public AbstractCustomerFactory getCustomerFactory() {
@@ -54,8 +57,12 @@ public class FincoApplication {
         this.applicationForm = applicationForm;
     }
 
-    public void setDao(FinCoDao finCoDao) {
+    public void setDao(FincoDao finCoDao) {
         this.dao = finCoDao;
+    }
+
+    public TransactionController getTransactionController() {
+        return transactionController;
     }
 
     public void launch() {
@@ -78,15 +85,5 @@ public class FincoApplication {
 
         FincoApplication fincoApplication = new FincoApplication();
         fincoApplication.launch();
-
-        String productNumber = "0000001";
-        LocalDate openDate = LocalDate.now();
-        double interestRate = 0;
-        double balance = 0;
-
-        ICustomer customer = fincoApplication.getCustomerFactory().createCustomer();
-        IAccount account = fincoApplication.getAccountFactory().createAccount(null, productNumber, openDate, interestRate, customer, balance, null);
-        IEntry entry = fincoApplication.getEntryFactory().createEntry();
-        Card card = fincoApplication.getAccountFactory().createCard();
     }
 }

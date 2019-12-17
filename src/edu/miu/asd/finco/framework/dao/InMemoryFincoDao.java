@@ -1,0 +1,44 @@
+package edu.miu.asd.finco.framework.dao;
+
+import edu.miu.asd.finco.framework.domain.IAccount;
+import edu.miu.asd.finco.framework.domain.ICustomer;
+
+import javax.swing.text.html.Option;
+import java.util.*;
+import java.util.function.BiFunction;
+
+public class InMemoryFincoDao implements FincoDao {
+
+    private List<ICustomer> customers = new ArrayList<>();
+    private Map<String, IAccount> accounts = new HashMap<>();
+
+    @Override
+    public void saveCustomer(ICustomer customer) {
+        customers.add(customer);
+    }
+
+    @Override
+    public void saveAccount(IAccount account) {
+        accounts.put(account.getAccountNumber(), account);
+    }
+
+    @Override
+    public Iterator<ICustomer> getAllCustomers() {
+        return customers.iterator();
+    }
+
+    @Override
+    public Iterator<IAccount> getAllAccounts() {
+        return accounts.values().iterator();
+    }
+
+    @Override
+    public Optional<IAccount> findAccount(String accountNumber) {
+        return accounts.containsKey(accountNumber) ? Optional.of(accounts.get(accountNumber)) : Optional.empty();
+    }
+
+    @Override
+    public void updateAccount(IAccount account) {
+        accounts.computeIfPresent(account.getAccountNumber(), (s, account1) -> account);
+    }
+}

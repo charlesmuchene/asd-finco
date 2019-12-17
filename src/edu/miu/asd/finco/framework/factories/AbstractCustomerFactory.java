@@ -9,6 +9,5 @@ import java.util.List;
 
 
 public interface AbstractCustomerFactory {
-    ICustomer createCustomer(String name, String street, String city, String zip, String state, String email, List<IAccount> accounts, int nOfEmployees);
     ICustomer createCustomer(ICustomer.Type opt, String name, String street, String city, String zip,String state,String email, List<IAccount> accounts, int nOfEmployees, LocalDate birthDate);
 }

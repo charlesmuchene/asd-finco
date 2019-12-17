@@ -20,4 +20,9 @@ public class FinCoAccount extends Account {
     public void notifyCustomer() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Default: FinCoAccount";
+    }
 }

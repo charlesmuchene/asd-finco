@@ -6,8 +6,13 @@ import edu.miu.asd.finco.domain.ICustomer;
 import java.util.Iterator;
 
 public interface FinCoDao {
+
     void saveCustomer(ICustomer customer);
+
     void saveAccount(IAccount account);
 
-//    Iterator<ICustomer>
+    Iterator<ICustomer> getAllCustomers();
+
+    Iterator<IAccount> getAllAccounts();
+
 }

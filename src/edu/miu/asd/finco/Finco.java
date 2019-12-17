@@ -12,6 +12,7 @@ public class Finco {
 
     public static void main(String[] args) {
         System.out.println("Financial Company");
+        System.out.println("-----------------------------");
 
 //        Instantiate default functionality
         AbstractCustomerFactory customerFactory = new CustomerFactory();
@@ -32,6 +33,10 @@ public class Finco {
         FinCoDao finCoDao = new InMemoryFinCoDao();
         finCoDao.saveAccount(account);
         finCoDao.saveCustomer(customer);
+
+        // Use
+        finCoDao.getAllAccounts().forEachRemaining(System.out::println);
+        finCoDao.getAllCustomers().forEachRemaining(System.out::println);
 
     }
 }

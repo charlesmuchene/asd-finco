@@ -1,12 +1,12 @@
 package edu.miu.asd.finco;
 
-import edu.miu.asd.finco.dao.FinCoDao;
-import edu.miu.asd.finco.dao.InMemoryFinCoDao;
-import edu.miu.asd.finco.domain.Card;
-import edu.miu.asd.finco.domain.IAccount;
-import edu.miu.asd.finco.domain.ICustomer;
-import edu.miu.asd.finco.domain.IEntry;
-import edu.miu.asd.finco.factories.*;
+import edu.miu.asd.finco.framework.dao.FinCoDao;
+import edu.miu.asd.finco.framework.dao.InMemoryFinCoDao;
+import edu.miu.asd.finco.framework.domain.Card;
+import edu.miu.asd.finco.framework.domain.IAccount;
+import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.IEntry;
+import edu.miu.asd.finco.framework.factories.*;
 
 public class Finco {
 

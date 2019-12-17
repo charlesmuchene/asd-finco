@@ -1,7 +1,7 @@
-package edu.miu.asd.finco.dao;
+package edu.miu.asd.finco.framework.dao;
 
-import edu.miu.asd.finco.domain.IAccount;
-import edu.miu.asd.finco.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.IAccount;
+import edu.miu.asd.finco.framework.domain.ICustomer;
 
 import java.util.ArrayList;
 import java.util.Iterator;

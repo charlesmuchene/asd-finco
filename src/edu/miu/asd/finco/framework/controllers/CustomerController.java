@@ -5,17 +5,18 @@ import edu.miu.asd.finco.framework.domain.Card;
 import edu.miu.asd.finco.framework.domain.IAccount;
 import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.factories.AbstractAccountFactory;
+import edu.miu.asd.finco.framework.factories.AbstractCustomerFactory;
 
 import java.time.LocalDate;
 import java.util.OptionalDouble;
 
-public class AccountController {
+public class CustomerController {
     private FincoDao fincoDao;
-    private AbstractAccountFactory accountFactory;
+    private AbstractCustomerFactory customerFactory;
 
-    public AccountController(FincoDao fincoDao, AbstractAccountFactory accountFactory) {
+    public CustomerController(FincoDao fincoDao, AbstractCustomerFactory customerFactory) {
         this.fincoDao = fincoDao;
-        this.accountFactory = accountFactory;
+        this.customerFactory = customerFactory;
     }
 
     /**
@@ -30,9 +31,9 @@ public class AccountController {
      * @return {@link OptionalDouble} instance
      */
 
-    public void AddAccount(String accountNumber, LocalDate openDate, double interestRate,
+    public void CreateCustomer(String accountNumber, LocalDate openDate, double interestRate,
                            ICustomer customer, double balance, Card card) {
-        IAccount account = accountFactory.createAccount(accountNumber, openDate, interestRate, customer, balance,null);
-        fincoDao.saveAccount(account);
+//        IAccount account = customerFactory.createCustomer(accountNumber, openDate, interestRate, customer, balance,null);
+//        fincoDao.saveAccount(account);
     }
 }

@@ -7,6 +7,9 @@ import edu.miu.asd.finco.framework.domain.IAccount;
 import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.domain.IEntry;
 import edu.miu.asd.finco.framework.factories.*;
+import edu.miu.asd.finco.ui.bank.BankFrm;
+
+import java.time.LocalDate;
 
 public class Finco {
 
@@ -50,8 +53,13 @@ public class Finco {
 
         Finco finco = new Finco();
 
+        String productNumber = "0000001";
+        LocalDate openDate = LocalDate.now();
+        double interestRate = 0;
+        double balance = 0;
+
         ICustomer customer = finco.getCustomerFactory().createCustomer();
-        IAccount account = finco.getAccountFactory().createAccount();
+        IAccount account = finco.getAccountFactory().createAccount(null, productNumber, openDate, interestRate, customer, balance, null);
         IEntry entry = finco.getEntryFactory().createEntry();
         Card card = finco.getAccountFactory().createCard();
 
@@ -67,6 +75,9 @@ public class Finco {
         // Use
         finCoDao.getAllAccounts().forEachRemaining(System.out::println);
         finCoDao.getAllCustomers().forEachRemaining(System.out::println);
+
+        BankFrm bankFrm = new BankFrm();
+        bankFrm.setVisible(true);
 
     }
 }

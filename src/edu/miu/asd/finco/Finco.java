@@ -8,6 +8,10 @@ import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.domain.IEntry;
 import edu.miu.asd.finco.framework.factories.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Finco {
 
     private AbstractCustomerFactory customerFactory;
@@ -50,7 +54,22 @@ public class Finco {
 
         Finco finco = new Finco();
 
-        ICustomer customer = finco.getCustomerFactory().createCustomer();
+        String name = "Financial Company";
+        String street = "1000 N 4th St";
+        String city = "Fairfield";
+        String zip = "52557";
+        String state = "IA";
+        String email = "finco@miu.edu";
+        List<IAccount> accounts = new ArrayList<>();
+        int nOfEmployees = 200;
+        String opt = "O";
+        LocalDate birthDate = null;
+        // Default Customer (Organization)
+        ICustomer customer = finco.getCustomerFactory().createCustomer(name, street, city, zip, state,  email, accounts, nOfEmployees);
+
+        // If opt = "O": Organization, opt == "P" : Person
+        ICustomer customer2 = finco.getCustomerFactory().createCustomer(opt, name, street, city, zip, state,  email, accounts, nOfEmployees, birthDate);
+
         IAccount account = finco.getAccountFactory().createAccount();
         IEntry entry = finco.getEntryFactory().createEntry();
         Card card = finco.getAccountFactory().createCard();

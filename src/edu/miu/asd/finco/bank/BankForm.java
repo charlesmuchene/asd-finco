@@ -1,5 +1,6 @@
 package edu.miu.asd.finco.bank;
 
+import edu.miu.asd.finco.bank.controllers.InterestController;
 import edu.miu.asd.finco.framework.ui.ApplicationForm;
 import edu.miu.asd.finco.framework.ui.dialogs.AccountDialog;
 
@@ -8,11 +9,12 @@ import java.awt.*;
 
 public class BankForm extends ApplicationForm {
 
-    public BankForm() {
+    public BankForm(InterestController interestController) {
         super("Bank Application", (jPanel, rectangle) -> {
             JButton addInterestButton = new JButton();
             addInterestButton.setBounds(448, 20, 106, 33);
             addInterestButton.setText("Add interest");
+            addInterestButton.addActionListener(e -> interestController.addInterest());
             jPanel.add(addInterestButton);
         });
         setAccountTypeFunctor(new AccountTypeFunctorImpl());

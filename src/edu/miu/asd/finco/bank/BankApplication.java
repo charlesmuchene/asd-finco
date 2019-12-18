@@ -1,5 +1,6 @@
 package edu.miu.asd.finco.bank;
 
+import edu.miu.asd.finco.bank.controllers.InterestController;
 import edu.miu.asd.finco.framework.FincoApplication;
 
 public class BankApplication extends FincoApplication {
@@ -8,7 +9,7 @@ public class BankApplication extends FincoApplication {
 
     public BankApplication() {
         super();
-        this.bankForm = new BankForm();
+        this.bankForm = new BankForm(new InterestController(getDao()));
         setApplicationForm(bankForm);
 
     }

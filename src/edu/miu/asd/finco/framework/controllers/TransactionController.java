@@ -1,10 +1,7 @@
 package edu.miu.asd.finco.framework.controllers;
 
 import edu.miu.asd.finco.framework.dao.FincoDao;
-import edu.miu.asd.finco.framework.domain.IAccount;
-import edu.miu.asd.finco.framework.domain.ICustomer;
-import edu.miu.asd.finco.framework.domain.IOrganization;
-import edu.miu.asd.finco.framework.domain.ITransaction;
+import edu.miu.asd.finco.framework.domain.*;
 import edu.miu.asd.finco.framework.factories.AbstractTransactionFactory;
 
 import java.util.Optional;
@@ -40,7 +37,7 @@ public class TransactionController {
                 ITransaction transaction = transactionFactory.createTransaction(ITransaction.Type.DEPOSIT, newAmount, description);
                 account.executeTransaction(transaction);
                 fincoDao.updateAccount(account);
-                notifyCustomerWithAccount(account);
+                notifyCustomerWithAccount(account, newAmount);
                 return OptionalDouble.of(account.getBalance());
 
             } catch (NumberFormatException e) {
@@ -71,7 +68,7 @@ public class TransactionController {
                 account.executeTransaction(transaction);
                 fincoDao.saveTransaction(transaction);
                 fincoDao.updateAccount(account);
-                notifyCustomerWithAccount(account);
+                notifyCustomerWithAccount(account, newAmount);
                 return OptionalDouble.of(account.getBalance());
 
             } catch (NumberFormatException e) {
@@ -85,10 +82,14 @@ public class TransactionController {
      * Email customer with the given account
      *
      * @param account {@link IAccount} instance
+     * @param amount  Amount in transaction
      */
-    private void notifyCustomerWithAccount(IAccount account) {
+    private void notifyCustomerWithAccount(IAccount account, double amount) {
         ICustomer customer = account.getCustomer();
-        if (customer instanceof IOrganization)
+        if (customer instanceof IOrganization) {
             account.notifyCustomer();
+        } else if (customer instanceof IPerson || amount > 500 || account.getBalance() < 0) {
+            account.notifyCustomer();
+        }
     }
 }

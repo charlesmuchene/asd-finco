@@ -19,6 +19,8 @@ public interface FincoDao {
 
     Iterator<IAccount> getAllAccounts();
 
+    Iterator<ITransaction> getAllTransactions();
+
     Optional<IAccount> findAccount(String accountNumber);
 
     void updateAccount(IAccount account);

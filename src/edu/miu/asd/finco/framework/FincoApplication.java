@@ -74,6 +74,7 @@ public class FincoApplication {
 
     public static void main(String[] args) {
         System.out.println("Financial Company");
+        System.out.println("Running...");
         System.out.println("-----------------------------");
 
         FincoApplication fincoApplication = new FincoApplication();

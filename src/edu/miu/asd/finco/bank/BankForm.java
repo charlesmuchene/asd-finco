@@ -32,6 +32,7 @@ public class BankForm extends ApplicationForm {
             JRadioButton savingsAccountRadioButton = new JRadioButton();
             savingsAccountRadioButton.setText("Savings");
             savingsAccountRadioButton.setActionCommand("Savings");
+            savingsAccountRadioButton.setSelected(true);
             container.add(savingsAccountRadioButton);
             savingsAccountRadioButton.setBounds(36, 36, 84, 24);
         }

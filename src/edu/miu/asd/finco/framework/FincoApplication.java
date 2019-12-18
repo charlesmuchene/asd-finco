@@ -51,10 +51,15 @@ public class FincoApplication {
 
     public void setApplicationForm(ApplicationForm applicationForm) {
         this.applicationForm = applicationForm;
+        this.applicationForm.setTransactionController(this.transactionController);
     }
 
     public void setDao(FincoDao finCoDao) {
         this.dao = finCoDao;
+    }
+
+    public FincoDao getDao() {
+        return dao;
     }
 
     public TransactionController getTransactionController() {

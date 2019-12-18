@@ -20,4 +20,5 @@ public class BankApplication extends FincoApplication {
     public BankForm getBankForm() {
         return bankForm;
     }
+
 }

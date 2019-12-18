@@ -8,10 +8,10 @@ import java.util.List;
 public abstract class Account implements IAccount {
     private String accountNumber;
     private LocalDate openDate;
-    private double interestRate;
+    protected double interestRate;
 
     private ICustomer customer;
-    private double balance;
+    protected double balance;
     private Card card;
 
     private List<ITransaction> transactions = new ArrayList<>();
@@ -30,10 +30,7 @@ public abstract class Account implements IAccount {
         this.interestRate = interestRate;
     }
 
-    //public abstract void addInterest();
-
-    public void addInterest()
-    {
+    public void addInterest() {
         this.balance = this.balance + this.balance * this.interestRate;
     }
 
@@ -57,7 +54,6 @@ public abstract class Account implements IAccount {
                 ", openDate='" + this.openDate + '\'' +
                 ", interestRate='" + this.interestRate + '\'' +
                 ", balance='" + this.balance + '\'' +
-//                ", card=" + this.card +
                 '}';
     }
 
@@ -69,5 +65,11 @@ public abstract class Account implements IAccount {
     @Override
     public ICustomer getCustomer() {
         return customer;
+    }
+
+    @Override
+    public void executeTransaction(ITransaction transaction) {
+        if (transaction instanceof Withdraw) balance -= transaction.getAmount();
+        else balance += transaction.getAmount();
     }
 }

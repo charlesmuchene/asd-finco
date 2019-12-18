@@ -123,20 +123,6 @@ public abstract class AccountDialog extends JDialog {
     protected abstract void processCustomField(ApplicationForm applicationForm, String value);
 
     /**
-     * Account type
-     */
-    public enum ACCOUNT_TYPE {
-
-        PERSONAL("P"), COMPANY("C");
-
-        public String initials;
-
-        ACCOUNT_TYPE(String initial) {
-            this.initials = initial;
-        }
-    }
-
-    /**
      * Account type functor
      */
     public interface AccountTypeFunctor {

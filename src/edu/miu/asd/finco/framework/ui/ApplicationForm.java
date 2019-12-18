@@ -12,8 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.OptionalDouble;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ApplicationForm extends JFrame {
     public String accountNumber;
@@ -45,6 +47,7 @@ public class ApplicationForm extends JFrame {
 
     private AccountDialog.AccountTypeFunctor accountTypeFunctor = new AccountDialog.AccountTypeFunctor() {
     };
+    private Consumer<Object> applicationExitFunctor = System.out::println;
 
     public ApplicationForm() {
         this("Finco Application", null);
@@ -116,6 +119,7 @@ public class ApplicationForm extends JFrame {
 
     private void exitApplication() {
         try {
+            this.applicationExitFunctor.accept(new Object());
             this.setVisible(false);    // hide the Frame
             this.dispose();            // free the system resources
             System.exit(0);            // close the application
@@ -159,48 +163,51 @@ public class ApplicationForm extends JFrame {
     }
 
     private void exitButtonActionPerformed(ActionEvent event) {
-        System.exit(0);
+        exitApplication();
     }
 
     private void personalAccountButtonActionPerformed(ActionEvent event) {
         AccountDialog dialog = new PersonalAccountDialog(ApplicationForm.this, accountTypeFunctor);
         showDialog(dialog, 450, 20, 320, 370);
-        addAccount(AccountDialog.ACCOUNT_TYPE.PERSONAL);
+        addAccount(ICustomer.Type.PERSON);
     }
 
     private void companyAccountButtonActionPerformed(ActionEvent event) {
         AccountDialog dialog = new CompanyAccountDialog(ApplicationForm.this, accountTypeFunctor);
         showDialog(dialog, 450, 20, 300, 330);
-        addAccount(AccountDialog.ACCOUNT_TYPE.COMPANY);
+        addAccount(ICustomer.Type.ORGANIZATION);
     }
 
     /**
      * Add account
      *
-     * @param type {@link AccountDialog.ACCOUNT_TYPE} instance
+     * @param type {@link ICustomer.Type} instance
      */
-    private void addAccount(AccountDialog.ACCOUNT_TYPE type) {
-
-        // TODO Use the custom field to create models
+    private void addAccount(ICustomer.Type type) {
 
         int employees = -1;
         LocalDate date = LocalDate.MIN;
         ICustomer.Type opt = ICustomer.Type.ORGANIZATION;
 
-        switch (type) {
-            case COMPANY:
-                employees = Integer.parseInt(noOfEmployees);
-                break;
-            case PERSONAL:
-                date = LocalDate.parse(dateOfBirth);
-                opt = ICustomer.Type.PERSON;
-                break;
+        try {
+
+            switch (type) {
+                case ORGANIZATION:
+                    employees = Integer.parseInt(noOfEmployees);
+                    break;
+                case PERSON:
+                    date = LocalDate.parse(dateOfBirth);
+                    break;
+            }
+        } catch (NumberFormatException | DateTimeParseException e) {
+            e.printStackTrace();
+            System.out.println("Error creating account");
+            return;
         }
 
-        ICustomer customer =
-        customerController.CreateCustomer(opt, clientName, street, city, zip, state, email, null, employees, date);
+        ICustomer customer = customerController.createCustomer(type, clientName, street, city, zip, state, email, employees, date);
 
-        accountController.AddAccount(accountNumber, LocalDate.now(), 0.0, customer, 0, null);
+        accountController.addAccount(accountNumber, LocalDate.now(), 3.0, customer, 0, null);
 
         if (isNewAccount) {
             rowData[0] = accountNumber;
@@ -256,7 +263,7 @@ public class ApplicationForm extends JFrame {
                 if (newAmount.isPresent()) {
                     model.setValueAt(String.valueOf(newAmount.getAsDouble()), selection, 5);
                     if (newAmount.getAsDouble() < 0) {
-                        JOptionPane.showMessageDialog(withdrawButton, " Account " + accountNumber + " : balance is negative: $" + String.valueOf(newAmount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(withdrawButton, " Account " + accountNumber + " : balance is negative: $" + newAmount.getAsDouble() + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
@@ -279,8 +286,12 @@ public class ApplicationForm extends JFrame {
     public void setCustomerController(CustomerController customerController) {
         this.customerController = customerController;
     }
-  
+
     public void setAccountTypeFunctor(AccountDialog.AccountTypeFunctor accountTypeFunctor) {
         this.accountTypeFunctor = accountTypeFunctor;
+    }
+
+    public void setApplicationExitFunctor(Consumer<Object> applicationExitFunctor) {
+        this.applicationExitFunctor = applicationExitFunctor;
     }
 }

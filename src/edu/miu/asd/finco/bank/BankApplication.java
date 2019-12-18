@@ -1,16 +1,33 @@
 package edu.miu.asd.finco.bank;
 
+import edu.miu.asd.finco.bank.controllers.AccountTypeController;
 import edu.miu.asd.finco.bank.controllers.InterestController;
+import edu.miu.asd.finco.bank.domain.AccountType;
+import edu.miu.asd.finco.bank.factories.BankAccountFactory;
 import edu.miu.asd.finco.framework.FincoApplication;
+import edu.miu.asd.finco.framework.controllers.AccountController;
+import edu.miu.asd.finco.framework.factories.AbstractAccountFactory;
 
 public class BankApplication extends FincoApplication {
 
     private BankForm bankForm;
 
+    private BankAccountFactory bankAccountFactory;
+    private AccountController accountController;
+
     public BankApplication() {
         super();
-        this.bankForm = new BankForm(new InterestController(getDao()));
+
+        bankAccountFactory = new BankAccountFactory();
+        accountController = new AccountController(this.getDao(), bankAccountFactory);
+
+        this.bankForm = new BankForm(new InterestController(getDao()), new AccountTypeController(bankAccountFactory));
         setApplicationForm(bankForm);
+
+//        this.bankAccountFactory.setAccountType(AccountType.SAVINGS);
+
+        this.setAccountFactory(bankAccountFactory);
+        this.bankForm.setAccountController(this.accountController);
 
     }
 

@@ -3,7 +3,7 @@ package edu.miu.asd.finco.framework;
 import edu.miu.asd.finco.framework.domain.Card;
 import edu.miu.asd.finco.framework.domain.IAccount;
 import edu.miu.asd.finco.framework.domain.ICustomer;
-import edu.miu.asd.finco.framework.domain.IEntry;
+import edu.miu.asd.finco.framework.domain.ITransaction;
 
 import edu.miu.asd.finco.framework.controllers.AccountController;
 import edu.miu.asd.finco.framework.controllers.CustomerController;
@@ -36,8 +36,8 @@ public class FincoApplication {
         this.customerController = new CustomerController(dao, this.customerFactory);
 
         this.applicationForm.setTransactionController(this.transactionController);
-        this.applicationForm.setTransactionController(this.transactionController);
-        this.applicationForm.setTransactionController(this.transactionController);
+        this.applicationForm.setAccountController(this.accountController);
+        this.applicationForm.setCustomerController(this.customerController);
     }
 
     public void setAccountFactory(AbstractAccountFactory accountFactory) {

@@ -14,7 +14,7 @@ public class CustomerFactory implements AbstractCustomerFactory {
     public ICustomer createCustomer(ICustomer.Type opt, String name, String street, String city, String zip,
                                     String state,String email, List<IAccount> accounts, int nOfEmployees, LocalDate birthDate) {
 
-        if (opt == ICustomer.Type.COMPANY)
+        if (opt == ICustomer.Type.ORGANIZATION)
         {
             return new Organization(name, street, city, zip, state, email, accounts, nOfEmployees);
         }

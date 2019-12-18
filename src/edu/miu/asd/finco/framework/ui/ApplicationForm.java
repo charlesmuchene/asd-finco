@@ -185,6 +185,7 @@ public class ApplicationForm extends JFrame {
 
         int employees = -1;
         LocalDate date = LocalDate.MIN;
+        ICustomer.Type opt = ICustomer.Type.ORGANIZATION;
 
         switch (type) {
             case COMPANY:
@@ -192,11 +193,12 @@ public class ApplicationForm extends JFrame {
                 break;
             case PERSONAL:
                 date = LocalDate.parse(dateOfBirth);
+                opt = ICustomer.Type.PERSON;
                 break;
         }
 
         ICustomer customer =
-        customerController.CreateCustomer(type, clientName, street, city, zip, state, email, null, employees, date);
+        customerController.CreateCustomer(opt, clientName, street, city, zip, state, email, null, employees, date);
 
         accountController.AddAccount(accountNumber, LocalDate.now(), 0.0, customer, 0, null);
 

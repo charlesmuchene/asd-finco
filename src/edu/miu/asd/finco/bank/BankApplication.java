@@ -16,4 +16,8 @@ public class BankApplication extends FincoApplication {
         BankApplication bankApplication = new BankApplication();
         bankApplication.launch();
     }
+
+    public BankForm getBankForm() {
+        return bankForm;
+    }
 }

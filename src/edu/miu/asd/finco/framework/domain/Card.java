@@ -7,5 +7,5 @@ public abstract class Card {
     private LocalDate expirationDate;
     private Account account;
 
-    public abstract void execute(IEntry entry);
+    public abstract void execute(ITransaction transaction);
 }

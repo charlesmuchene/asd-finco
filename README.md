@@ -8,10 +8,16 @@ Financial Company framework
 
 ## Patterns
 
-* Factory Method
-    * Create Customer, Account, Entry
+* Factory Method:
+    * Create Customer, Account, Transaction
 
     
 * Iterator:
     * In DAO: get all customers and accounts
-    * In Customer: get all accounts 
+    * In Customer: get all accounts
+    
+* Façade:
+    * In the implementation of the DAO 
+    
+* Observer:
+    * Organizations observer Finco

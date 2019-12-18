@@ -1,17 +1,10 @@
 package edu.miu.asd.finco.framework;
 
 import edu.miu.asd.finco.framework.controllers.AccountController;
-import edu.miu.asd.finco.framework.domain.Card;
-import edu.miu.asd.finco.framework.domain.IAccount;
-import edu.miu.asd.finco.framework.domain.ICustomer;
-import edu.miu.asd.finco.framework.domain.IEntry;
-
 import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.dao.InMemoryFincoDao;
-
 import edu.miu.asd.finco.framework.factories.*;
-import java.time.LocalDate;
 import edu.miu.asd.finco.framework.ui.ApplicationForm;
 
 import javax.swing.*;
@@ -20,7 +13,7 @@ public class FincoApplication {
 
     private AbstractCustomerFactory customerFactory;
     private AbstractAccountFactory accountFactory;
-    private AbstractEntryFactory entryFactory;
+    private AbstractTransactionFactory transactionFactory;
     private FincoDao dao = new InMemoryFincoDao();
     private ApplicationForm applicationForm;
     private TransactionController transactionController;
@@ -29,9 +22,9 @@ public class FincoApplication {
     public FincoApplication() {
         this.customerFactory = new CustomerFactory();
         this.accountFactory = new AccountFactory();
-        this.entryFactory = new EntryFactory();
+        this.transactionFactory = new TransactionFactory();
         this.applicationForm = new ApplicationForm();
-        this.transactionController = new TransactionController(dao, this.entryFactory);
+        this.transactionController = new TransactionController(dao, this.transactionFactory);
         this.accountController = new AccountController(dao, this.accountFactory);
         this.applicationForm.setTransactionController(this.transactionController);
     }
@@ -52,8 +45,8 @@ public class FincoApplication {
         return accountFactory;
     }
 
-    public AbstractEntryFactory getEntryFactory() {
-        return entryFactory;
+    public AbstractTransactionFactory getTransactionFactory() {
+        return transactionFactory;
     }
 
     public void setApplicationForm(ApplicationForm applicationForm) {
@@ -84,6 +77,7 @@ public class FincoApplication {
 
     public static void main(String[] args) {
         System.out.println("Financial Company");
+        System.out.println("Running...");
         System.out.println("-----------------------------");
 
         FincoApplication fincoApplication = new FincoApplication();

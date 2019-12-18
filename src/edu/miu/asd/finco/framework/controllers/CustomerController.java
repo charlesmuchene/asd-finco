@@ -28,11 +28,10 @@ public class CustomerController {
      * @param customer      Account owner
      * @param balance       Account balance
      * @param card          Card linked to the account
-     * @return {@link OptionalDouble} instance
      */
 
     public void CreateCustomer(String accountNumber, LocalDate openDate, double interestRate,
-                           ICustomer customer, double balance, Card card) {
+                               ICustomer customer, double balance, Card card) {
 //        IAccount account = customerFactory.createCustomer(accountNumber, openDate, interestRate, customer, balance,null);
 //        fincoDao.saveAccount(account);
     }

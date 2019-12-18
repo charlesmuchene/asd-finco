@@ -9,4 +9,6 @@ public interface ITransaction {
      */
     void execute();
 
+    double getAmount();
+
 }

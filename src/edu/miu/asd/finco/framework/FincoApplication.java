@@ -1,10 +1,5 @@
 package edu.miu.asd.finco.framework;
 
-import edu.miu.asd.finco.framework.domain.Card;
-import edu.miu.asd.finco.framework.domain.IAccount;
-import edu.miu.asd.finco.framework.domain.ICustomer;
-import edu.miu.asd.finco.framework.domain.ITransaction;
-
 import edu.miu.asd.finco.framework.controllers.AccountController;
 import edu.miu.asd.finco.framework.controllers.CustomerController;
 import edu.miu.asd.finco.framework.controllers.TransactionController;
@@ -14,6 +9,7 @@ import edu.miu.asd.finco.framework.factories.*;
 import edu.miu.asd.finco.framework.ui.ApplicationForm;
 
 import javax.swing.*;
+import java.util.function.Consumer;
 
 public class FincoApplication {
 
@@ -31,6 +27,7 @@ public class FincoApplication {
         this.accountFactory = new AccountFactory();
         this.transactionFactory = new TransactionFactory();
         this.applicationForm = new ApplicationForm();
+
         this.transactionController = new TransactionController(dao, this.transactionFactory);
         this.accountController = new AccountController(dao, this.accountFactory);
         this.customerController = new CustomerController(dao, this.customerFactory);
@@ -62,6 +59,9 @@ public class FincoApplication {
 
     public void setApplicationForm(ApplicationForm applicationForm) {
         this.applicationForm = applicationForm;
+        this.applicationForm.setTransactionController(this.transactionController);
+        this.applicationForm.setAccountController(this.accountController);
+        this.applicationForm.setCustomerController(this.customerController);
     }
 
     public void setDao(FincoDao finCoDao) {
@@ -76,9 +76,14 @@ public class FincoApplication {
         return transactionController;
     }
 
+    public void setApplicationExitFunctor(Consumer<Object> functor) {
+        applicationForm.setApplicationExitFunctor(functor);
+    }
+
     public AccountController getAccountController() {
         return this.accountController;
     }
+
     public CustomerController getCustomerController() {
         return this.customerController;
     }
@@ -104,5 +109,12 @@ public class FincoApplication {
 
         FincoApplication fincoApplication = new FincoApplication();
         fincoApplication.launch();
+
+        fincoApplication.setApplicationExitFunctor(o -> {
+            System.out.println("Accounts in application");
+            System.out.println("-----------------------------");
+            fincoApplication.getDao().getAllAccounts().forEachRemaining(System.out::println);
+            System.out.println("Application shutdown");
+        });
     }
 }

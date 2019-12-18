@@ -15,18 +15,8 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public void addInterest() {
-
-    }
-
-    @Override
-    public void executeTransaction(ITransaction transaction) {
-
-    }
-
-    @Override
     public double getBalance() {
-        return 0;
+        return balance;
     }
 
     @Override

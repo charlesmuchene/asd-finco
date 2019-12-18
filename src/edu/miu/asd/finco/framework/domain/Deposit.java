@@ -8,6 +8,6 @@ public class Deposit extends Transaction {
 
     @Override
     public void execute() {
-
+        System.out.println("Executing deposit");
     }
 }

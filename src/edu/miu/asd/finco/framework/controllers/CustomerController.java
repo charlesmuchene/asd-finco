@@ -44,7 +44,9 @@ public class CustomerController {
                         null, nOfEmployees, birthDate);
                 fincoDao.saveCustomer(customer);
                 return customer;
-
+    /**
+     * Create customer
+     *
      * @param accountNumber Account number
      * @param openDate      Account open date
      * @param interestRate  Interest rate
@@ -52,11 +54,5 @@ public class CustomerController {
      * @param balance       Account balance
      * @param card          Card linked to the account
      */
-
-    public void CreateCustomer(String accountNumber, LocalDate openDate, double interestRate,
-                               ICustomer customer, double balance, Card card) {
-//        IAccount account = customerFactory.createCustomer(accountNumber, openDate, interestRate, customer, balance,null);
-//        fincoDao.saveAccount(account);
-
     }
 }

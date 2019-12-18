@@ -1,5 +1,6 @@
 package edu.miu.asd.finco.framework;
 
+import edu.miu.asd.finco.framework.controllers.AccountController;
 import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.dao.InMemoryFincoDao;
@@ -16,6 +17,7 @@ public class FincoApplication {
     private FincoDao dao = new InMemoryFincoDao();
     private ApplicationForm applicationForm;
     private TransactionController transactionController;
+    private AccountController accountController;
 
     public FincoApplication() {
         this.customerFactory = new CustomerFactory();
@@ -23,6 +25,7 @@ public class FincoApplication {
         this.transactionFactory = new TransactionFactory();
         this.applicationForm = new ApplicationForm();
         this.transactionController = new TransactionController(dao, this.transactionFactory);
+        this.accountController = new AccountController(dao, this.accountFactory);
         this.applicationForm.setTransactionController(this.transactionController);
     }
 

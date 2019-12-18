@@ -25,6 +25,9 @@ public class CheckingAccount extends Account {
 
     @Override
     public String toString() {
-        return "Checking Account";
+        return "CheckingAccount{" +
+                "interestRate=" + interestRate +
+                ", balance=" + balance +
+                '}';
     }
 }

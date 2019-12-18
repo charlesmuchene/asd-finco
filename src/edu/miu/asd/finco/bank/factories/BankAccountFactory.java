@@ -17,7 +17,8 @@ public class BankAccountFactory implements AbstractAccountFactory {
         if (this.accountType == AccountType.CHECKING) {
             return new CheckingAccount(productNumber, openDate, interestRate, customer, balance, null);
         } else {
-        return new SavingsAccount(productNumber, openDate,interestRate, customer,  balance,  null);}
+            return new SavingsAccount(productNumber, openDate, interestRate, customer, balance, null);
+        }
     }
 
     @Override

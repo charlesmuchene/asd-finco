@@ -19,4 +19,11 @@ public class FinCoAccount extends Account {
         System.out.println("Emailing Finco account");
     }
 
+    @Override
+    public String toString() {
+        return "FinCoAccount{" +
+                "interestRate=" + interestRate +
+                ", balance=" + balance +
+                '}';
+    }
 }

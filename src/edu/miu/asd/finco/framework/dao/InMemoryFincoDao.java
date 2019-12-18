@@ -33,8 +33,9 @@ public class InMemoryFincoDao implements FincoDao {
     }
 
     @Override
-    public Iterator<IAccount> getAllAccounts() {
-        return accounts.values().iterator();
+    public Iterator<IAccount> getAllAccounts()
+    {
+          return accounts.values().iterator();
     }
 
     @Override

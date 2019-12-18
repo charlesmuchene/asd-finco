@@ -6,5 +6,6 @@ public interface IAccount {
     void notifyCustomer();
     void setCard(Card card);
     String getAccountNumber();
+    void addInterest();
     ICustomer getCustomer();
 }

@@ -187,6 +187,7 @@ public class ApplicationForm extends JFrame {
 
         int employees = -1;
         LocalDate date = LocalDate.MIN;
+        ICustomer.Type opt = ICustomer.Type.ORGANIZATION;
 
         try {
 

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.util.OptionalDouble;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ApplicationForm extends JFrame {
     public String accountNumber;
@@ -38,6 +39,7 @@ public class ApplicationForm extends JFrame {
     private TransactionController transactionController;
     private AccountDialog.AccountTypeFunctor accountTypeFunctor = new AccountDialog.AccountTypeFunctor() {
     };
+    private Consumer<Object> applicationExitFunctor = System.out::println;
 
     public ApplicationForm() {
         this("Finco Application", null);
@@ -126,6 +128,7 @@ public class ApplicationForm extends JFrame {
 
     private void windowClosingWithEvent(WindowEvent event) {
         try {
+            this.applicationExitFunctor.accept(new Object());
             this.exitApplication();
         } catch (Exception e) {
             e.printStackTrace();
@@ -248,5 +251,9 @@ public class ApplicationForm extends JFrame {
 
     public void setAccountTypeFunctor(AccountDialog.AccountTypeFunctor accountTypeFunctor) {
         this.accountTypeFunctor = accountTypeFunctor;
+    }
+
+    public void setApplicationExitFunctor(Consumer<Object> applicationExitFunctor) {
+        this.applicationExitFunctor = applicationExitFunctor;
     }
 }

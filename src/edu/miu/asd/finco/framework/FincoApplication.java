@@ -8,6 +8,7 @@ import edu.miu.asd.finco.framework.factories.*;
 import edu.miu.asd.finco.framework.ui.ApplicationForm;
 
 import javax.swing.*;
+import java.util.function.Consumer;
 
 public class FincoApplication {
 
@@ -66,6 +67,10 @@ public class FincoApplication {
         return transactionController;
     }
 
+    public void setApplicationExitFunctor(Consumer<Object> functor) {
+        applicationForm.setApplicationExitFunctor(functor);
+    }
+
     public void launch() {
         try {
             try {
@@ -87,5 +92,11 @@ public class FincoApplication {
 
         FincoApplication fincoApplication = new FincoApplication();
         fincoApplication.launch();
+        fincoApplication.setApplicationExitFunctor(o -> {
+            System.out.println("Accounts in application");
+            System.out.println("-----------------------------");
+            fincoApplication.getDao().getAllAccounts().forEachRemaining(System.out::println);
+            System.out.println("Application shutdown");
+        });
     }
 }

@@ -11,5 +11,7 @@ public interface IAccount {
 
     String getAccountNumber();
 
+    void addInterest();
+
     ICustomer getCustomer();
 }

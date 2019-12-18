@@ -30,7 +30,12 @@ public abstract class Account implements IAccount {
         this.interestRate = interestRate;
     }
 
-    public abstract void addInterest();
+    //public abstract void addInterest();
+
+    public void addInterest()
+    {
+        this.balance = this.balance + this.balance * this.interestRate;
+    }
 
     @Override
     public void setCard(Card card) {

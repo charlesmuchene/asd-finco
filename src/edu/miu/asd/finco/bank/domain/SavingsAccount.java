@@ -21,7 +21,7 @@ public class SavingsAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-        System.out.println("Emailing customer on transaction");
+        System.out.println("Emailing Savings Account Customer on transaction");
     }
 
     @Override

@@ -1,6 +1,12 @@
 package edu.miu.asd.finco.framework;
 
+import edu.miu.asd.finco.framework.domain.Card;
+import edu.miu.asd.finco.framework.domain.IAccount;
+import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.IEntry;
+
 import edu.miu.asd.finco.framework.controllers.AccountController;
+import edu.miu.asd.finco.framework.controllers.CustomerController;
 import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.dao.InMemoryFincoDao;
@@ -18,6 +24,7 @@ public class FincoApplication {
     private ApplicationForm applicationForm;
     private TransactionController transactionController;
     private AccountController accountController;
+    private CustomerController customerController;
 
     public FincoApplication() {
         this.customerFactory = new CustomerFactory();
@@ -26,6 +33,10 @@ public class FincoApplication {
         this.applicationForm = new ApplicationForm();
         this.transactionController = new TransactionController(dao, this.transactionFactory);
         this.accountController = new AccountController(dao, this.accountFactory);
+        this.customerController = new CustomerController(dao, this.customerFactory);
+
+        this.applicationForm.setTransactionController(this.transactionController);
+        this.applicationForm.setTransactionController(this.transactionController);
         this.applicationForm.setTransactionController(this.transactionController);
     }
 
@@ -63,6 +74,13 @@ public class FincoApplication {
 
     public TransactionController getTransactionController() {
         return transactionController;
+    }
+
+    public AccountController getAccountController() {
+        return this.accountController;
+    }
+    public CustomerController getCustomerController() {
+        return this.customerController;
     }
 
     public void launch() {

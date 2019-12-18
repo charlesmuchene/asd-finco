@@ -1,6 +1,8 @@
 package edu.miu.asd.finco.framework;
 
+
 import edu.miu.asd.finco.framework.controllers.AccountController;
+import edu.miu.asd.finco.framework.controllers.CustomerController;
 import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.dao.InMemoryFincoDao;
@@ -19,15 +21,21 @@ public class FincoApplication {
     private ApplicationForm applicationForm;
     private TransactionController transactionController;
     private AccountController accountController;
+    private CustomerController customerController;
 
     public FincoApplication() {
         this.customerFactory = new CustomerFactory();
         this.accountFactory = new AccountFactory();
         this.transactionFactory = new TransactionFactory();
         this.applicationForm = new ApplicationForm();
+
         this.transactionController = new TransactionController(dao, this.transactionFactory);
         this.accountController = new AccountController(dao, this.accountFactory);
+        this.customerController = new CustomerController(dao, this.customerFactory);
+
         this.applicationForm.setTransactionController(this.transactionController);
+        this.applicationForm.setAccountController(this.accountController);
+        this.applicationForm.setCustomerController(this.customerController);
     }
 
     public void setAccountFactory(AbstractAccountFactory accountFactory) {
@@ -53,6 +61,8 @@ public class FincoApplication {
     public void setApplicationForm(ApplicationForm applicationForm) {
         this.applicationForm = applicationForm;
         this.applicationForm.setTransactionController(this.transactionController);
+        this.applicationForm.setAccountController(this.accountController);
+        this.applicationForm.setCustomerController(this.customerController);
     }
 
     public void setDao(FincoDao finCoDao) {
@@ -69,6 +79,14 @@ public class FincoApplication {
 
     public void setApplicationExitFunctor(Consumer<Object> functor) {
         applicationForm.setApplicationExitFunctor(functor);
+    }
+
+    public AccountController getAccountController() {
+        return this.accountController;
+    }
+
+    public CustomerController getCustomerController() {
+        return this.customerController;
     }
 
     public void launch() {
@@ -92,6 +110,7 @@ public class FincoApplication {
 
         FincoApplication fincoApplication = new FincoApplication();
         fincoApplication.launch();
+
         fincoApplication.setApplicationExitFunctor(o -> {
             System.out.println("Accounts in application");
             System.out.println("-----------------------------");

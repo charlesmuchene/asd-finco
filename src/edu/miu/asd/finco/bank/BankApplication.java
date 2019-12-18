@@ -17,6 +17,13 @@ public class BankApplication extends FincoApplication {
     public static void main(String[] args) {
         BankApplication bankApplication = new BankApplication();
         bankApplication.launch();
+
+        bankApplication.setApplicationExitFunctor(o -> {
+            System.out.println("Accounts in application");
+            System.out.println("-----------------------------");
+            bankApplication.getDao().getAllAccounts().forEachRemaining(System.out::println);
+            System.out.println("Application shutdown");
+        });
     }
 
     public BankForm getBankForm() {

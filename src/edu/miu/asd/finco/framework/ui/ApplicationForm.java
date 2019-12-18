@@ -1,5 +1,7 @@
 package edu.miu.asd.finco.framework.ui;
 
+import edu.miu.asd.finco.framework.controllers.AccountController;
+import edu.miu.asd.finco.framework.controllers.CustomerController;
 import edu.miu.asd.finco.framework.controllers.TransactionController;
 import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.ui.dialogs.*;
@@ -9,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.OptionalDouble;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -36,7 +40,11 @@ public class ApplicationForm extends JFrame {
     private JButton withdrawButton = new JButton();
     private JButton addInterestButton = new JButton();
     private JButton exitButton = new JButton();
+
     private TransactionController transactionController;
+    private AccountController accountController;
+    private CustomerController customerController;
+
     private AccountDialog.AccountTypeFunctor accountTypeFunctor = new AccountDialog.AccountTypeFunctor() {
     };
     private Consumer<Object> applicationExitFunctor = System.out::println;
@@ -111,6 +119,7 @@ public class ApplicationForm extends JFrame {
 
     private void exitApplication() {
         try {
+            this.applicationExitFunctor.accept(new Object());
             this.setVisible(false);    // hide the Frame
             this.dispose();            // free the system resources
             System.exit(0);            // close the application
@@ -128,7 +137,6 @@ public class ApplicationForm extends JFrame {
 
     private void windowClosingWithEvent(WindowEvent event) {
         try {
-            this.applicationExitFunctor.accept(new Object());
             this.exitApplication();
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,7 +163,7 @@ public class ApplicationForm extends JFrame {
     }
 
     private void exitButtonActionPerformed(ActionEvent event) {
-        System.exit(0);
+        exitApplication();
     }
 
     private void personalAccountButtonActionPerformed(ActionEvent event) {
@@ -177,7 +185,28 @@ public class ApplicationForm extends JFrame {
      */
     private void addAccount(ICustomer.Type type) {
 
-        // TODO Use the custom field to create models
+        int employees = -1;
+        LocalDate date = LocalDate.MIN;
+
+        try {
+
+            switch (type) {
+                case ORGANIZATION:
+                    employees = Integer.parseInt(noOfEmployees);
+                    break;
+                case PERSON:
+                    date = LocalDate.parse(dateOfBirth);
+                    break;
+            }
+        } catch (NumberFormatException | DateTimeParseException e) {
+            e.printStackTrace();
+            System.out.println("Error creating account");
+            return;
+        }
+
+        ICustomer customer = customerController.createCustomer(type, clientName, street, city, zip, state, email, employees, date);
+
+        accountController.addAccount(accountNumber, LocalDate.now(), 3.0, customer, 0, null);
 
         if (isNewAccount) {
             rowData[0] = accountNumber;
@@ -233,7 +262,7 @@ public class ApplicationForm extends JFrame {
                 if (newAmount.isPresent()) {
                     model.setValueAt(String.valueOf(newAmount.getAsDouble()), selection, 5);
                     if (newAmount.getAsDouble() < 0) {
-                        JOptionPane.showMessageDialog(withdrawButton, " Account " + accountNumber + " : balance is negative: $" + String.valueOf(newAmount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(withdrawButton, " Account " + accountNumber + " : balance is negative: $" + newAmount.getAsDouble() + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
@@ -247,6 +276,14 @@ public class ApplicationForm extends JFrame {
 
     public void setTransactionController(TransactionController transactionController) {
         this.transactionController = transactionController;
+    }
+
+    public void setAccountController(AccountController accountController) {
+        this.accountController = accountController;
+    }
+
+    public void setCustomerController(CustomerController customerController) {
+        this.customerController = customerController;
     }
 
     public void setAccountTypeFunctor(AccountDialog.AccountTypeFunctor accountTypeFunctor) {

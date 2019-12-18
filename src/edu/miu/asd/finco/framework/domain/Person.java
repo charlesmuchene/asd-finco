@@ -8,9 +8,9 @@ public class Person extends Customer implements IOrganization {
     private IOrganization employer;
 
     public Person(String name, String street, String city, String zip,
-                  String state, String email, List<IAccount> accounts, LocalDate birthDate) {
+                  String state, String email, LocalDate birthDate) {
 
-        super(name, street, city, zip, state, email, accounts);
+        super(name, street, city, zip, state, email);
         this.birthDate = birthDate;
     }
 }

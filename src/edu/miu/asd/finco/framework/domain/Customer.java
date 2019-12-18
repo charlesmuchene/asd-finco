@@ -15,14 +15,13 @@ public abstract class Customer implements ICustomer {
     private List<IAccount> accounts = new ArrayList<>();
 
     public Customer(String name, String street, String city, String zip,
-                    String state, String email, List<IAccount> accounts) {
+                    String state, String email) {
         this.name = name;
         this.street = street;
         this.city = city;
         this.zip = zip;
         this.state = state;
         this.email = email;
-        this.accounts = accounts;
     }
 
     @Override

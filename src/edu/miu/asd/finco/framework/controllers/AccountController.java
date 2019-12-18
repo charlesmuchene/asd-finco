@@ -7,7 +7,6 @@ import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.factories.AbstractAccountFactory;
 
 import java.time.LocalDate;
-import java.util.OptionalDouble;
 
 public class AccountController {
     private FincoDao fincoDao;
@@ -27,12 +26,13 @@ public class AccountController {
      * @param customer      Account owner
      * @param balance       Account balance
      * @param card          Card linked to the account
-     * @return {@link OptionalDouble} instance
      */
 
-    public void AddAccount(String accountNumber, LocalDate openDate, double interestRate,
+    public void addAccount(String accountNumber, LocalDate openDate, double interestRate,
                            ICustomer customer, double balance, Card card) {
-        IAccount account = accountFactory.createAccount(accountNumber, openDate, interestRate, customer, balance,null);
+        IAccount account = accountFactory.createAccount(
+                accountNumber, openDate, interestRate, customer, balance, null);
         fincoDao.saveAccount(account);
+        customer.addAccount(account);
     }
 }

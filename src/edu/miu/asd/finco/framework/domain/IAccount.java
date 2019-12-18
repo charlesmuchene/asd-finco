@@ -8,4 +8,5 @@ public interface IAccount {
     void notifyCustomer();
     void setCard(Card card);
     String getAccountNumber();
+    public void addInterest();
 }

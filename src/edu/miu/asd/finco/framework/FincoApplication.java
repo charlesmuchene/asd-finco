@@ -61,6 +61,10 @@ public class FincoApplication {
         this.dao = finCoDao;
     }
 
+    public FincoDao getDao() {
+        return dao;
+    }
+
     public TransactionController getTransactionController() {
         return transactionController;
     }

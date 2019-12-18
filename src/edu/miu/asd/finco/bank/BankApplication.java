@@ -10,6 +10,7 @@ public class BankApplication extends FincoApplication {
         super();
         this.bankForm = new BankForm();
         setApplicationForm(bankForm);
+
     }
 
     public static void main(String[] args) {

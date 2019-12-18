@@ -88,7 +88,7 @@ public class TransactionController {
         ICustomer customer = account.getCustomer();
         if (customer instanceof IOrganization) {
             account.notifyCustomer();
-        } else if (customer instanceof IPerson || amount > 500 || account.getBalance() < 0) {
+        } else if (customer instanceof IPerson && (amount > 500 || account.getBalance() < 0)) {
             account.notifyCustomer();
         }
     }

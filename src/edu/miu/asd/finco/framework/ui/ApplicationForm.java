@@ -1,6 +1,9 @@
 package edu.miu.asd.finco.framework.ui;
 
+import edu.miu.asd.finco.framework.controllers.AccountController;
+import edu.miu.asd.finco.framework.controllers.CustomerController;
 import edu.miu.asd.finco.framework.controllers.TransactionController;
+import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.ui.dialogs.*;
 
 import javax.swing.*;
@@ -8,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
 import java.util.OptionalDouble;
 import java.util.function.BiConsumer;
 
@@ -34,7 +38,10 @@ public class ApplicationForm extends JFrame {
     private JButton withdrawButton = new JButton();
     private JButton addInterestButton = new JButton();
     private JButton exitButton = new JButton();
+
     private TransactionController transactionController;
+    private AccountController accountController;
+    private CustomerController customerController;
 
     public ApplicationForm() {
         this("Finco Application", null);
@@ -173,6 +180,23 @@ public class ApplicationForm extends JFrame {
 
         // TODO Use the custom field to create models
 
+        int employees = -1;
+        LocalDate date = LocalDate.MIN;
+
+        switch (type) {
+            case COMPANY:
+                employees = Integer.parseInt(noOfEmployees);
+                break;
+            case PERSONAL:
+                date = LocalDate.parse(dateOfBirth);
+                break;
+        }
+
+        ICustomer customer =
+        customerController.CreateCustomer(type, clientName, street, city, zip, state, email, null, employees, date);
+
+        accountController.AddAccount(accountNumber, LocalDate.now(), 0.0, customer, 0, null);
+
         if (isNewAccount) {
             rowData[0] = accountNumber;
             rowData[1] = clientName;
@@ -241,5 +265,13 @@ public class ApplicationForm extends JFrame {
 
     public void setTransactionController(TransactionController transactionController) {
         this.transactionController = transactionController;
+    }
+
+    public void setAccountController(AccountController accountController) {
+        this.accountController = accountController;
+    }
+
+    public void setCustomerController(CustomerController customerController) {
+        this.customerController = customerController;
     }
 }

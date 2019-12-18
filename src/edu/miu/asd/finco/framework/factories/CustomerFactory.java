@@ -11,9 +11,10 @@ import java.util.List;
 public class CustomerFactory implements AbstractCustomerFactory {
 
     @Override
-    public ICustomer createCustomer(ICustomer.Type opt, String name, String street, String city, String zip,String state,String email, List<IAccount> accounts, int nOfEmployees, LocalDate birthDate) {
+    public ICustomer createCustomer(ICustomer.Type opt, String name, String street, String city, String zip,
+                                    String state,String email, List<IAccount> accounts, int nOfEmployees, LocalDate birthDate) {
 
-        if (opt == ICustomer.Type.ORGANIZATION)
+        if (opt == ICustomer.Type.COMPANY)
         {
             return new Organization(name, street, city, zip, state, email, accounts, nOfEmployees);
         }

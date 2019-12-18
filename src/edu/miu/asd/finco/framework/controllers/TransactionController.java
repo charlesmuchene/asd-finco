@@ -2,6 +2,8 @@ package edu.miu.asd.finco.framework.controllers;
 
 import edu.miu.asd.finco.framework.dao.FincoDao;
 import edu.miu.asd.finco.framework.domain.IAccount;
+import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.IOrganization;
 import edu.miu.asd.finco.framework.domain.ITransaction;
 import edu.miu.asd.finco.framework.factories.AbstractTransactionFactory;
 
@@ -38,6 +40,7 @@ public class TransactionController {
                 ITransaction transaction = transactionFactory.createTransaction(ITransaction.Type.DEPOSIT, newAmount, description);
                 account.executeTransaction(transaction);
                 fincoDao.updateAccount(account);
+                notifyCustomerWithAccount(account);
                 return OptionalDouble.of(account.getBalance());
 
             } catch (NumberFormatException e) {
@@ -68,6 +71,7 @@ public class TransactionController {
                 account.executeTransaction(transaction);
                 fincoDao.saveTransaction(transaction);
                 fincoDao.updateAccount(account);
+                notifyCustomerWithAccount(account);
                 return OptionalDouble.of(account.getBalance());
 
             } catch (NumberFormatException e) {
@@ -75,5 +79,16 @@ public class TransactionController {
             }
         }
         return OptionalDouble.empty();
+    }
+
+    /**
+     * Email customer with the given account
+     *
+     * @param account {@link IAccount} instance
+     */
+    private void notifyCustomerWithAccount(IAccount account) {
+        ICustomer customer = account.getCustomer();
+        if (customer instanceof IOrganization)
+            account.notifyCustomer();
     }
 }

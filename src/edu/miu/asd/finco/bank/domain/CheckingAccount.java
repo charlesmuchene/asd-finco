@@ -30,7 +30,7 @@ public class CheckingAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-
+        System.out.println("Emailing customer on transaction");
     }
 
     @Override

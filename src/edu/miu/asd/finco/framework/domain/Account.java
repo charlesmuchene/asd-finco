@@ -60,4 +60,9 @@ public abstract class Account implements IAccount {
     public String getAccountNumber() {
         return accountNumber;
     }
+
+    @Override
+    public ICustomer getCustomer() {
+        return customer;
+    }
 }

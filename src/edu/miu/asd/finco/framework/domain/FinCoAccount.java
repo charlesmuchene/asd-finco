@@ -26,13 +26,7 @@ public class FinCoAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-
+        System.out.println("Emailing Finco account");
     }
 
-//    @Override
-//    public String toString() {
-////        String cardDetails;
-//        return "Default: FinCoAccount";
-////        return super.toString();
-//    }
 }

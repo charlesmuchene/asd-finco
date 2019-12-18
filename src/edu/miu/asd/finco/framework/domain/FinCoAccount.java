@@ -16,7 +16,7 @@ public class FinCoAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-        System.out.println("Emailing Finco account");
+        System.out.println("Emailing about transaction on Finco account");
     }
 
     @Override

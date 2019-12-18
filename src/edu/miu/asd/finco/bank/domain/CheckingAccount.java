@@ -3,10 +3,9 @@ package edu.miu.asd.finco.bank.domain;
 import edu.miu.asd.finco.framework.domain.Account;
 import edu.miu.asd.finco.framework.domain.Card;
 import edu.miu.asd.finco.framework.domain.ICustomer;
-import edu.miu.asd.finco.framework.domain.IEntry;
+import edu.miu.asd.finco.framework.domain.ITransaction;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class CheckingAccount extends Account {
     public CheckingAccount(String productNumber, LocalDate openDate, double interestRate,
@@ -20,7 +19,7 @@ public class CheckingAccount extends Account {
     }
 
     @Override
-    public void executeEntry(IEntry entry) {
+    public void executeTransaction(ITransaction transaction) {
 
     }
 
@@ -31,7 +30,7 @@ public class CheckingAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-
+        System.out.println("Emailing customer on transaction");
     }
 
     @Override

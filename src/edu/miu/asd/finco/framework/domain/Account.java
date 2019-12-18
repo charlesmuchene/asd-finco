@@ -2,6 +2,7 @@ package edu.miu.asd.finco.framework.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class Account implements IAccount {
@@ -13,7 +14,7 @@ public abstract class Account implements IAccount {
     private double balance;
     private Card card;
 
-    private List<IEntry> entries = new ArrayList<>();
+    private List<ITransaction> transactions = new ArrayList<>();
 
     public Account(String accountNumber, LocalDate openDate, double interestRate,
                    ICustomer customer, double balance, Card card) {
@@ -29,16 +30,24 @@ public abstract class Account implements IAccount {
         this.interestRate = interestRate;
     }
 
-    public abstract void addInterest();
+    //public abstract void addInterest();
+
+    public void addInterest()
+    {
+        this.balance = this.balance + this.balance * this.interestRate;
+    }
 
     @Override
     public void setCard(Card card) {
         this.card = card;
     }
 
+    public void addTransaction(ITransaction transaction) {
+        transactions.add(transaction);
+    }
 
-    public void addEntry(IEntry entry) {
-        entries.add(entry);
+    public Iterator<ITransaction> getTransactions() {
+        return transactions.iterator();
     }
 
     @Override
@@ -55,5 +64,10 @@ public abstract class Account implements IAccount {
     @Override
     public String getAccountNumber() {
         return accountNumber;
+    }
+
+    @Override
+    public ICustomer getCustomer() {
+        return customer;
     }
 }

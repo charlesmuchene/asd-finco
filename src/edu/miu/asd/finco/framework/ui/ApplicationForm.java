@@ -22,7 +22,7 @@ public class ApplicationForm extends JFrame {
     public String city;
     public String zip;
     public String state;
-    public String accountType;
+    public String accountType = "--";
     public String transactionAmount;
     public String email;
     public String noOfEmployees;
@@ -42,6 +42,9 @@ public class ApplicationForm extends JFrame {
     private TransactionController transactionController;
     private AccountController accountController;
     private CustomerController customerController;
+
+    private AccountDialog.AccountTypeFunctor accountTypeFunctor = new AccountDialog.AccountTypeFunctor() {
+    };
 
     public ApplicationForm() {
         this("Finco Application", null);
@@ -160,13 +163,13 @@ public class ApplicationForm extends JFrame {
     }
 
     private void personalAccountButtonActionPerformed(ActionEvent event) {
-        AccountDialog dialog = new PersonalAccountDialog(ApplicationForm.this);
+        AccountDialog dialog = new PersonalAccountDialog(ApplicationForm.this, accountTypeFunctor);
         showDialog(dialog, 450, 20, 320, 370);
         addAccount(AccountDialog.ACCOUNT_TYPE.PERSONAL);
     }
 
     private void companyAccountButtonActionPerformed(ActionEvent event) {
-        AccountDialog dialog = new CompanyAccountDialog(ApplicationForm.this);
+        AccountDialog dialog = new CompanyAccountDialog(ApplicationForm.this, accountTypeFunctor);
         showDialog(dialog, 450, 20, 300, 330);
         addAccount(AccountDialog.ACCOUNT_TYPE.COMPANY);
     }
@@ -273,5 +276,9 @@ public class ApplicationForm extends JFrame {
 
     public void setCustomerController(CustomerController customerController) {
         this.customerController = customerController;
+    }
+  
+    public void setAccountTypeFunctor(AccountDialog.AccountTypeFunctor accountTypeFunctor) {
+        this.accountTypeFunctor = accountTypeFunctor;
     }
 }

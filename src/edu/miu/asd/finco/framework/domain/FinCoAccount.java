@@ -1,7 +1,6 @@
 package edu.miu.asd.finco.framework.domain;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class FinCoAccount extends Account {
 
@@ -16,7 +15,7 @@ public class FinCoAccount extends Account {
     }
 
     @Override
-    public void executeEntry(IEntry entry) {
+    public void executeTransaction(ITransaction transaction) {
 
     }
 
@@ -27,13 +26,7 @@ public class FinCoAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-
+        System.out.println("Emailing Finco account");
     }
 
-//    @Override
-//    public String toString() {
-////        String cardDetails;
-//        return "Default: FinCoAccount";
-////        return super.toString();
-//    }
 }

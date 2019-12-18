@@ -1,9 +1,8 @@
 package edu.miu.asd.finco.framework.controllers;
 
 import edu.miu.asd.finco.framework.dao.FincoDao;
-import edu.miu.asd.finco.framework.domain.IAccount;
-import edu.miu.asd.finco.framework.domain.IEntry;
-import edu.miu.asd.finco.framework.factories.AbstractEntryFactory;
+import edu.miu.asd.finco.framework.domain.*;
+import edu.miu.asd.finco.framework.factories.AbstractTransactionFactory;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -11,11 +10,11 @@ import java.util.OptionalDouble;
 public class TransactionController {
 
     private FincoDao fincoDao;
-    private AbstractEntryFactory entryFactory;
+    private AbstractTransactionFactory transactionFactory;
 
-    public TransactionController(FincoDao fincoDao, AbstractEntryFactory entryFactory) {
+    public TransactionController(FincoDao fincoDao, AbstractTransactionFactory transactionFactory) {
         this.fincoDao = fincoDao;
-        this.entryFactory = entryFactory;
+        this.transactionFactory = transactionFactory;
     }
 
     /**
@@ -35,9 +34,10 @@ public class TransactionController {
             try {
 
                 double newAmount = Double.parseDouble(amount);
-                IEntry entry = entryFactory.createEntry(IEntry.Type.DEPOSIT, newAmount, description);
-                account.executeEntry(entry);
+                ITransaction transaction = transactionFactory.createTransaction(ITransaction.Type.DEPOSIT, newAmount, description);
+                account.executeTransaction(transaction);
                 fincoDao.updateAccount(account);
+                notifyCustomerWithAccount(account, newAmount);
                 return OptionalDouble.of(account.getBalance());
 
             } catch (NumberFormatException e) {
@@ -64,9 +64,11 @@ public class TransactionController {
             try {
 
                 double newAmount = Double.parseDouble(amount);
-                IEntry entry = entryFactory.createEntry(IEntry.Type.WITHDRAW, newAmount, description);
-                account.executeEntry(entry);
+                ITransaction transaction = transactionFactory.createTransaction(ITransaction.Type.WITHDRAW, newAmount, description);
+                account.executeTransaction(transaction);
+                fincoDao.saveTransaction(transaction);
                 fincoDao.updateAccount(account);
+                notifyCustomerWithAccount(account, newAmount);
                 return OptionalDouble.of(account.getBalance());
 
             } catch (NumberFormatException e) {
@@ -74,5 +76,20 @@ public class TransactionController {
             }
         }
         return OptionalDouble.empty();
+    }
+
+    /**
+     * Email customer with the given account
+     *
+     * @param account {@link IAccount} instance
+     * @param amount  Amount in transaction
+     */
+    private void notifyCustomerWithAccount(IAccount account, double amount) {
+        ICustomer customer = account.getCustomer();
+        if (customer instanceof IOrganization) {
+            account.notifyCustomer();
+        } else if (customer instanceof IPerson || amount > 500 || account.getBalance() < 0) {
+            account.notifyCustomer();
+        }
     }
 }

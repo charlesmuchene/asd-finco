@@ -4,6 +4,7 @@ import edu.miu.asd.finco.framework.ui.ApplicationForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 
 public abstract class AccountDialog extends JDialog {
 
@@ -19,26 +20,21 @@ public abstract class AccountDialog extends JDialog {
     private JTextField emailTextField = new JTextField();
     private JTextField customTextField = new JTextField();
     private JTextField accountNumberTextField = new JTextField();
-    private JRadioButton checkingAccountRadioButton = new JRadioButton();
 
-    public AccountDialog(ApplicationForm applicationForm, String customFieldTitle) {
+    private AccountTypeFunctor accountTypeFunctor;
+
+    public AccountDialog(ApplicationForm applicationForm, String customFieldTitle, AccountTypeFunctor accountTypeFunctor) {
         super(applicationForm);
         this.applicationForm = applicationForm;
+        this.accountTypeFunctor = accountTypeFunctor;
 
         setTitle("Add Account");
         setModal(true);
         getContentPane().setLayout(null);
         setSize(298, 339);
         setVisible(false);
-        checkingAccountRadioButton.setText("Checkings");
-        checkingAccountRadioButton.setActionCommand("Checkings");
-        getContentPane().add(checkingAccountRadioButton);
-        checkingAccountRadioButton.setBounds(36, 12, 100, 24);
-        JRadioButton savingsAccountRadioButton = new JRadioButton();
-        savingsAccountRadioButton.setText("Savings");
-        savingsAccountRadioButton.setActionCommand("Savings");
-        getContentPane().add(savingsAccountRadioButton);
-        savingsAccountRadioButton.setBounds(36, 36, 84, 24);
+
+        accountTypeFunctor.addUI(getContentPane());
 
         createLabel("Name", 96, 48);
         createLabel("Street", 120, 48);
@@ -106,7 +102,7 @@ public abstract class AccountDialog extends JDialog {
         applicationForm.zip = zipTextField.getText();
         applicationForm.email = emailTextField.getText();
         applicationForm.state = stateTextField.getText();
-        applicationForm.accountType = checkingAccountRadioButton.isSelected() ? "Ch" : "S";
+        applicationForm.accountType = accountTypeFunctor.getAccountType();
         applicationForm.isNewAccount = true;
 
         processCustomField(applicationForm, customTextField.getText());
@@ -139,4 +135,20 @@ public abstract class AccountDialog extends JDialog {
             this.initials = initial;
         }
     }
+
+    /**
+     * Account type functor
+     */
+    public interface AccountTypeFunctor {
+
+        default void addUI(Container container) {
+            // No op
+        }
+
+        default String getAccountType() {
+            return "--";
+        }
+
+    }
+
 }

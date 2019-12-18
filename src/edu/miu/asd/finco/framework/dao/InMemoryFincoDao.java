@@ -2,15 +2,15 @@ package edu.miu.asd.finco.framework.dao;
 
 import edu.miu.asd.finco.framework.domain.IAccount;
 import edu.miu.asd.finco.framework.domain.ICustomer;
+import edu.miu.asd.finco.framework.domain.ITransaction;
 
-import javax.swing.text.html.Option;
 import java.util.*;
-import java.util.function.BiFunction;
 
 public class InMemoryFincoDao implements FincoDao {
 
     private List<ICustomer> customers = new ArrayList<>();
     private Map<String, IAccount> accounts = new HashMap<>();
+    private List<ITransaction> transactions = new ArrayList<>();
 
     @Override
     public void saveCustomer(ICustomer customer) {
@@ -23,13 +23,24 @@ public class InMemoryFincoDao implements FincoDao {
     }
 
     @Override
+    public void saveTransaction(ITransaction transaction) {
+        transactions.add(transaction);
+    }
+
+    @Override
     public Iterator<ICustomer> getAllCustomers() {
         return customers.iterator();
     }
 
     @Override
-    public Iterator<IAccount> getAllAccounts() {
-        return accounts.values().iterator();
+    public Iterator<IAccount> getAllAccounts()
+    {
+          return accounts.values().iterator();
+    }
+
+    @Override
+    public Iterator<ITransaction> getAllTransactions() {
+        return transactions.iterator();
     }
 
     @Override

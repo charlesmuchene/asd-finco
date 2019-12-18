@@ -1,11 +1,11 @@
 package edu.miu.asd.finco.framework.domain;
 
-public interface IEntry {
+public interface ITransaction {
 
     enum Type {DEPOSIT, WITHDRAW}
 
     /**
-     * Execute this entry
+     * Execute this transaction
      */
     void execute();
 

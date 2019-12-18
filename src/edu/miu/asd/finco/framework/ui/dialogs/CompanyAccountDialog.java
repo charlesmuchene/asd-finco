@@ -4,8 +4,8 @@ import edu.miu.asd.finco.framework.ui.ApplicationForm;
 
 public class CompanyAccountDialog extends AccountDialog {
 
-    public CompanyAccountDialog(ApplicationForm applicationForm) {
-        super(applicationForm, "No of employees");
+    public CompanyAccountDialog(ApplicationForm applicationForm, AccountTypeFunctor accountTypeFunctor) {
+        super(applicationForm, "No of employees", accountTypeFunctor);
         setTitle("Add Company Account");
     }
 

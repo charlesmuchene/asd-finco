@@ -11,17 +11,16 @@ import java.util.List;
 public class CustomerFactory implements AbstractCustomerFactory {
 
     @Override
-    public ICustomer createCustomer(ICustomer.Type opt, String name, String street, String city, String zip,String state,String email, List<IAccount> accounts, int nOfEmployees, LocalDate birthDate) {
+    public ICustomer createCustomer(ICustomer.Type type, String name, String street, String city, String zip, String state, String email, List<IAccount> accounts, int nOfEmployees, LocalDate birthDate) {
 
-        if (opt == ICustomer.Type.ORGANIZATION)
-        {
-            return new Organization(name, street, city, zip, state, email, accounts, nOfEmployees);
-        }
-        else
-        {
-            return new Person(name, street, city, zip, state, email, accounts, birthDate);
+        switch (type) {
+            case ORGANIZATION:
+                return new Organization(name, street, city, zip, state, email, accounts, nOfEmployees);
+            case PERSON:
+                return new Person(name, street, city, zip, state, email, accounts, birthDate);
         }
 
+        throw new IllegalArgumentException("Unknown type " + type);
 
     }
 

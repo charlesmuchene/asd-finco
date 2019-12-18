@@ -1,6 +1,7 @@
 package edu.miu.asd.finco.framework.ui;
 
 import edu.miu.asd.finco.framework.controllers.TransactionController;
+import edu.miu.asd.finco.framework.domain.ICustomer;
 import edu.miu.asd.finco.framework.ui.dialogs.*;
 
 import javax.swing.*;
@@ -157,21 +158,21 @@ public class ApplicationForm extends JFrame {
     private void personalAccountButtonActionPerformed(ActionEvent event) {
         AccountDialog dialog = new PersonalAccountDialog(ApplicationForm.this, accountTypeFunctor);
         showDialog(dialog, 450, 20, 320, 370);
-        addAccount(AccountDialog.ACCOUNT_TYPE.PERSONAL);
+        addAccount(ICustomer.Type.PERSON);
     }
 
     private void companyAccountButtonActionPerformed(ActionEvent event) {
         AccountDialog dialog = new CompanyAccountDialog(ApplicationForm.this, accountTypeFunctor);
         showDialog(dialog, 450, 20, 300, 330);
-        addAccount(AccountDialog.ACCOUNT_TYPE.COMPANY);
+        addAccount(ICustomer.Type.ORGANIZATION);
     }
 
     /**
      * Add account
      *
-     * @param type {@link AccountDialog.ACCOUNT_TYPE} instance
+     * @param type {@link ICustomer.Type} instance
      */
-    private void addAccount(AccountDialog.ACCOUNT_TYPE type) {
+    private void addAccount(ICustomer.Type type) {
 
         // TODO Use the custom field to create models
 

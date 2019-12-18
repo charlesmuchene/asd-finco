@@ -196,7 +196,7 @@ public class ApplicationForm extends JFrame {
                     employees = Integer.parseInt(noOfEmployees);
                     break;
                 case PERSON:
-                    date = LocalDate.parse(dateOfBirth);
+                    date = LocalDate.now();//LocalDate.parse(dateOfBirth);
                     break;
             }
         } catch (NumberFormatException | DateTimeParseException e) {

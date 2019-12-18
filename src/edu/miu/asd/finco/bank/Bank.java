@@ -3,17 +3,17 @@ package edu.miu.asd.finco.bank;
 import edu.miu.asd.finco.bank.controllers.AccountTypeController;
 import edu.miu.asd.finco.bank.controllers.InterestController;
 import edu.miu.asd.finco.bank.factories.BankAccountFactory;
-import edu.miu.asd.finco.framework.FincoApplication;
+import edu.miu.asd.finco.framework.Finco;
 import edu.miu.asd.finco.framework.controllers.AccountController;
 
-public class BankApplication extends FincoApplication {
+public class Bank extends Finco {
 
     private BankForm bankForm;
 
     private BankAccountFactory bankAccountFactory;
     private AccountController accountController;
 
-    public BankApplication() {
+    public Bank() {
         super();
 
         bankAccountFactory = new BankAccountFactory();
@@ -28,13 +28,13 @@ public class BankApplication extends FincoApplication {
     }
 
     public static void main(String[] args) {
-        BankApplication bankApplication = new BankApplication();
-        bankApplication.launch();
+        Bank bank = new Bank();
+        bank.launch();
 
-        bankApplication.setApplicationExitFunctor(o -> {
+        bank.setApplicationExitFunctor(o -> {
             System.out.println("Accounts in application");
             System.out.println("-----------------------------");
-            bankApplication.getDao().getAllAccounts().forEachRemaining(System.out::println);
+            bank.getDao().getAllAccounts().forEachRemaining(System.out::println);
             System.out.println("Application shutdown");
         });
     }

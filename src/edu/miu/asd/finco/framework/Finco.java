@@ -11,7 +11,7 @@ import edu.miu.asd.finco.framework.ui.ApplicationForm;
 import javax.swing.*;
 import java.util.function.Consumer;
 
-public class FincoApplication {
+public class Finco {
 
     private AbstractCustomerFactory customerFactory;
     private AbstractAccountFactory accountFactory;
@@ -22,7 +22,7 @@ public class FincoApplication {
     private AccountController accountController;
     private CustomerController customerController;
 
-    public FincoApplication() {
+    public Finco() {
         this.customerFactory = new CustomerFactory();
         this.accountFactory = new AccountFactory();
         this.transactionFactory = new TransactionFactory();
@@ -107,13 +107,13 @@ public class FincoApplication {
         System.out.println("Running...");
         System.out.println("-----------------------------");
 
-        FincoApplication fincoApplication = new FincoApplication();
-        fincoApplication.launch();
+        Finco finco = new Finco();
+        finco.launch();
 
-        fincoApplication.setApplicationExitFunctor(o -> {
+        finco.setApplicationExitFunctor(o -> {
             System.out.println("Accounts in application");
             System.out.println("-----------------------------");
-            fincoApplication.getDao().getAllAccounts().forEachRemaining(System.out::println);
+            finco.getDao().getAllAccounts().forEachRemaining(System.out::println);
             System.out.println("Application shutdown");
         });
     }

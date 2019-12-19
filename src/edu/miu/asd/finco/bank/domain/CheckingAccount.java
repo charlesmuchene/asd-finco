@@ -20,11 +20,14 @@ public class CheckingAccount extends Account {
 
     @Override
     public void notifyCustomer() {
-        System.out.println("Emailing Checking Account Customer on Transaction");
+        System.out.println("Emailing Customer about transaction on Checking Account");
     }
 
     @Override
     public String toString() {
-        return "Checking Account";
+        return "CheckingAccount{" +
+                "interestRate=" + interestRate +
+                ", balance=" + balance +
+                '}';
     }
 }
